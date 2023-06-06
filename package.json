@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "clean": "rm -fvr ./dist/",
-        "build": "npm run clean && npx tsc",
+        "build": "npm run clean && tsc",
         "prettier": "prettier -w ."
     },
     "repository": {
