@@ -1,6 +1,6 @@
 import { Logger } from "./logging";
 
-export default async function processBatch<T>(readData: Array<T>, batchSize: number, logger: Logger, fnProcessData: (item: T, logger: Logger) => Promise<any>) {
+export async function processBatch<T>(readData: Array<T>, batchSize: number, logger: Logger, fnProcessData: (item: T, logger: Logger) => Promise<any>) {
     const processData = { threads: [] as Array<Promise<any>>, totalProcessed: 0, errors: [] };
     for await (const obj of readData) {
         processData.threads.push(fnProcessData(obj, logger));

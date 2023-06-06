@@ -1,12 +1,12 @@
 {
     "name": "@intelligrid/apcommons",
-    "version": "1.0.0",
+    "version": "0.0.2",
     "description": "Common functions to use in node project",
-    "main": "index.js",
     "scripts": {
         "clean": "rm -fvr ./dist/",
         "build": "npm run clean && tsc",
-        "prettier": "prettier -w ."
+        "prettier": "prettier -w .",
+        "packAndPublish": "cp package.json ./dist/ && npm publish ./dist/ --access public"
     },
     "repository": {
         "type": "git",
