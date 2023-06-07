@@ -5,7 +5,7 @@ type PossibleReturn = {
     error?: boolean;
 };
 export async function processBatch<T, K extends PossibleReturn>(readData: Array<T>, batchSize: number, logger: Logger, fnProcessData: (item: T, logger: Logger) => Promise<K>) {
-    const processData = { threads: [] as Array<Promise<K>>, totalProcessed: 0, errors: [] };
+    const processData = { threads: [] as Array<Promise<K>>, totalProcessed: 0, errors: [] as K[] };
     for await (const obj of readData) {
         processData.threads.push(fnProcessData(obj, logger));
         if (processData.threads.length === batchSize) {
