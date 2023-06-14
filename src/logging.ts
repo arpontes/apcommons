@@ -8,7 +8,7 @@ function getDiffMs(fromDt: Date) {
     return new Date().getTime() - fromDt.getTime();
 }
 
-export type Logger = (result: string, complData?: any, exception?: any) => void;
+export type Logger = (result: string, complData?: any, exception?: any) => any;
 export function createLogger(action: string, fixedComplData?: any): Logger {
     const dt = new Date();
     return (result: string, complData?: any, exception?: any) =>
