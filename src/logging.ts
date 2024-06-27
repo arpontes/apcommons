@@ -7,7 +7,7 @@ function getDiffMs(fromDt: Date) {
     return new Date().getTime() - fromDt.getTime();
 }
 
-type BaseLogObject = { action: string; result?: string; time: number; error?: true; errorData?: string };
+type BaseLogObject = { action: string; result?: string; stopwatch: number; error?: true; errorData?: string };
 export type Logger = <T>(result: string, complData?: T, exception?: any) => BaseLogObject & T;
 export function createLogger(action: string, fixedComplData?: any, fnLogAction?: <T extends BaseLogObject>(logObject: T) => T): Logger {
     const dt = new Date();
@@ -17,11 +17,12 @@ export function createLogger(action: string, fixedComplData?: any, fnLogAction?:
             action,
             ...(fixedComplData ?? {}),
             result: result == null || result === "" ? undefined : result,
-            time: getDiffMs(dt),
+            stopwatch: getDiffMs(dt),
             ...(complData ?? {}),
             ...(exception ? { error: true, errorData: JSON.stringify(exception, Object.getOwnPropertyNames(exception)) } : {})
         });
 }
 export function createLoggerOnLogger(origin: Logger, newFixedComplData: any): Logger {
-    return (result: string, complData?: any, exception?: any) => origin(result, { ...(newFixedComplData ?? {}), ...(complData ?? {}) }, exception);
+    const dt = new Date();
+    return (result: string, complData?: any, exception?: any) => origin(result, { stopwatch: getDiffMs(dt), ...(newFixedComplData ?? {}), ...(complData ?? {}) }, exception);
 }
