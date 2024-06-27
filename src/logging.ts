@@ -7,8 +7,9 @@ function getDiffMs(fromDt: Date) {
     return new Date().getTime() - fromDt.getTime();
 }
 
-export type Logger = <T>(result: string, complData?: T, exception?: any) => { action: string; result?: string; time: number; error?: true; errorData?: string } & T;
-export function createLogger(action: string, fixedComplData?: any, fnLogAction?: <T>(logObject: T) => T): Logger {
+type BaseLogObject = { action: string; result?: string; time: number; error?: true; errorData?: string };
+export type Logger = <T>(result: string, complData?: T, exception?: any) => BaseLogObject & T;
+export function createLogger(action: string, fixedComplData?: any, fnLogAction?: <T extends BaseLogObject>(logObject: T) => T): Logger {
     const dt = new Date();
     const fnInternalAction = fnLogAction ? fnLogAction : defaultLog;
     return (result: string, complData?: any, exception?: any) =>

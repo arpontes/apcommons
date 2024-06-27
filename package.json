@@ -1,6 +1,6 @@
 {
     "name": "@intelligrid/apcommons",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "Common functions to use in node project",
     "scripts": {
         "clean": "rm -fvr ./dist/",
