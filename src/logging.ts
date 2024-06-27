@@ -1,6 +1,5 @@
-function Log<T>(logObject: T, propName: string) {
-    const log = { [propName]: logObject };
-    console.log(JSON.stringify(log));
+function defaultLog<T>(logObject: T) {
+    console.log(JSON.stringify(logObject));
     return logObject;
 }
 
@@ -9,10 +8,11 @@ function getDiffMs(fromDt: Date) {
 }
 
 export type Logger = <T>(result: string, complData?: T, exception?: any) => { action: string; result?: string; time: number; error?: true; errorData?: string } & T;
-export function createLogger(action: string, fixedComplData?: any, propName?: string): Logger {
+export function createLogger(action: string, fixedComplData?: any, fnLogAction: <T>(logObject: T) => T: Logger {
     const dt = new Date();
+    const action = fnLogAction ? fnLogAction : defaultLog;
     return (result: string, complData?: any, exception?: any) =>
-        Log(
+        action(
             {
                 action,
                 ...(fixedComplData ?? {}),
@@ -20,8 +20,7 @@ export function createLogger(action: string, fixedComplData?: any, propName?: st
                 time: getDiffMs(dt),
                 ...(complData ?? {}),
                 ...(exception ? { error: true, errorData: JSON.stringify(exception, Object.getOwnPropertyNames(exception)) } : {})
-            },
-            propName ? propName : "mdmLogObj"
+            }
         );
 }
 export function createLoggerOnLogger(origin: Logger, newFixedComplData: any): Logger {
