@@ -1,10 +1,10 @@
 import { Logger } from "./logging";
 
-export type ReturnSuccess = {
+type ReturnSuccess = {
     stop?: boolean;
     error?: false;
 };
-export type ReturnError = {
+type ReturnError = {
     stop?: boolean;
     error: true;
 };
